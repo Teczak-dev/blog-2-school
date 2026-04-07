@@ -2,10 +2,11 @@
     <div class="min-h-screen bg-gray-50 py-12">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-lg sm:rounded-lg">
-                <div class="px-8 py-10 bg-gradient-to-r from-green-600 to-teal-600 text-white">
-                    <h1 class="text-3xl font-bold">✏️ Edytuj post</h1>
-                    <p class="text-green-100 mt-2">Aktualizuj swój post: "{{ $post->title }}"</p>
-                </div>
+                <div class="p-8 bg-gradient-to-br from-green-50 to-teal-50">
+                    <h1 class="text-3xl font-bold bg-gradient-to-r from-green-600 to-teal-600 bg-clip-text text-transparent mb-2">
+                        ✏️ Edytuj post
+                    </h1>
+                    <p class="text-gray-600 mb-8">Aktualizuj swój post: "{{ $post->title }}"</p>
                 
                 <div class="p-8">
                     @if ($errors->any())
@@ -152,14 +153,20 @@
                         </div>
 
                         <!-- Buttons -->
-                        <div class="flex items-center justify-between pt-6 border-t border-gray-200">
+                        <div class="flex items-center justify-between pt-8 border-t border-gray-200">
                             <a href="{{ route('posts.show', $post->slug) }}" 
-                               class="inline-flex items-center px-6 py-3 border border-gray-300 rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors">
-                                ← Anuluj
+                               class="inline-flex items-center gap-2 px-6 py-3 bg-white border border-gray-300 rounded-xl text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 shadow-md hover:shadow-lg">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                                </svg>
+                                Anuluj
                             </a>
                             <button type="submit" 
-                                    class="inline-flex items-center px-8 py-3 bg-gradient-to-r from-green-600 to-teal-600 text-white font-semibold rounded-lg hover:from-green-700 hover:to-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all transform hover:scale-105">
-                                💾 Zapisz zmiany
+                                    class="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-green-600 to-teal-600 text-white font-semibold rounded-xl hover:from-green-700 hover:to-teal-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/>
+                                </svg>
+                                Zapisz zmiany
                             </button>
                         </div>
                     </form>

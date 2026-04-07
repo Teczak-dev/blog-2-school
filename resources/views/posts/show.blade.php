@@ -17,14 +17,20 @@
             <!-- Post Content -->
             <div class="p-8">
                 <div class="flex items-center justify-between mb-4">
-                    <a href="{{ route('posts.index') }}" class="text-sm text-gray-500 hover:text-gray-700 inline-flex items-center">
-                        ← Powrót do listy artykułów
+                    <a href="{{ route('posts.index') }}" class="inline-flex items-center gap-2 text-gray-600 hover:text-indigo-600 transition-colors duration-200">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                        </svg>
+                        Powrót do postów
                     </a>
                     
                     @if (auth()->check() && auth()->id() === $post->user_id)
                         <a href="{{ route('posts.edit', $post->slug) }}" 
-                           class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg font-medium text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-900 focus:outline-none focus:border-blue-900 focus:ring ring-blue-300 disabled:opacity-25 transition ease-in-out duration-150">
-                            ✏️ Edytuj post
+                           class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                            </svg>
+                            Edytuj
                         </a>
                     @endif
                 </div>
@@ -188,7 +194,10 @@
                     <!-- Submit Button -->
                     <div class="flex items-center gap-4">
                         <button type="submit"
-                            class="bg-indigo-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-indigo-700 transition-colors">
+                            class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                            </svg>
                             Opublikuj komentarz
                         </button>
                         <p class="text-sm text-gray-500">* Pola wymagane</p>

@@ -15,14 +15,20 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
+        <div class="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+            <!-- Use the unified navigation -->
+            @include('partials.navigation')
 
             <!-- Page Heading -->
             @isset($header)
-                <header class="bg-white shadow">
+                <header class="bg-white/80 backdrop-blur-sm shadow-sm border-b border-gray-200">
                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center">
+                                <span class="text-white text-lg">🏠</span>
+                            </div>
+                            {{ $header }}
+                        </div>
                     </div>
                 </header>
             @endisset

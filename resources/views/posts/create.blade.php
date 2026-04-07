@@ -2,10 +2,11 @@
     <div class="min-h-screen bg-gray-50 py-12">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-lg sm:rounded-lg">
-                <div class="px-8 py-10 bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
-                    <h1 class="text-3xl font-bold">✍️ Utwórz nowy post</h1>
-                    <p class="text-blue-100 mt-2">Podziel się swoimi przemyśleniami ze światem</p>
-                </div>
+                <div class="p-8 bg-gradient-to-br from-indigo-50 to-purple-50">
+                    <h1 class="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">
+                        ✍️ Utwórz nowy post
+                    </h1>
+                    <p class="text-gray-600 mb-8">Podziel się swoimi przemyśleniami ze światem</p>
                 
                 <div class="p-8">
                     @if ($errors->any())
@@ -141,14 +142,20 @@
                         </div>
 
                         <!-- Buttons -->
-                        <div class="flex items-center justify-between pt-6 border-t border-gray-200">
+                        <div class="flex items-center justify-between pt-8 border-t border-gray-200">
                             <a href="{{ route('posts.index') }}" 
-                               class="inline-flex items-center px-6 py-3 border border-gray-300 rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
-                                ← Anuluj
+                               class="inline-flex items-center gap-2 px-6 py-3 bg-white border border-gray-300 rounded-xl text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 shadow-md hover:shadow-lg">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                                </svg>
+                                Anuluj
                             </a>
                             <button type="submit" 
-                                    class="inline-flex items-center px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all transform hover:scale-105">
-                                🚀 Opublikuj post
+                                    class="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                                </svg>
+                                Opublikuj post
                             </button>
                         </div>
                     </form>

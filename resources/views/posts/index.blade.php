@@ -1,41 +1,40 @@
 <x-layout>
-
-
+    <!-- Hero Section -->
+    <div class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">
+                    📝 Najnowsze Posty
+                </h1>
+                <p class="text-xl text-indigo-100 mb-8 max-w-3xl mx-auto">
+                    Odkryj najnowsze artykuły z świata programowania, technologii i rozwoju osobistego
+                </p>
+                @auth
+                    <a href="{{ route('posts.create') }}" 
+                       class="inline-flex items-center gap-2 px-8 py-4 bg-white text-indigo-600 font-bold rounded-2xl hover:bg-gray-50 transition-all duration-200 shadow-xl hover:shadow-2xl transform hover:scale-105">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        Napisz nowy post
+                    </a>
+                @else
+                    <a href="{{ route('login') }}" 
+                       class="inline-flex items-center gap-2 px-8 py-4 bg-white text-indigo-600 font-bold rounded-2xl hover:bg-gray-50 transition-all duration-200 shadow-xl hover:shadow-2xl transform hover:scale-105">
+                        🚀 Zacznij pisać
+                    </a>
+                @endauth
+            </div>
+        </div>
+    </div>
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- Header -->
-        <div class="mb-8 flex items-center justify-between">
-            <div>
-                <h2 class="text-3xl font-bold text-gray-900">Najnowsze Posty</h2>
-                <p class="mt-2 text-gray-600">Odkryj najnowsze artykuły z świata programowania</p>
-            </div>
-            
-            @if (auth()->check())
-                <a href="{{ route('posts.create') }}" 
-                   class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all transform hover:scale-105">
-                    ✍️ Napisz nowy post
-                </a>
-            @else
-                <a href="{{ route('login') }}" 
-                   class="inline-flex items-center px-6 py-3 border border-blue-600 text-blue-600 font-semibold rounded-lg hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all">
-                    🔑 Zaloguj się aby pisać
-                </a>
-            @endif
-        </div>
-
-        <!-- Success Message -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <!-- Success Messages -->
         @if (session('success'))
-            <div class="mb-6 bg-green-50 border-l-4 border-green-400 p-4">
-                <div class="flex">
-                    <div class="flex-shrink-0">
-                        <svg class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                    <div class="ml-3">
-                        <p class="text-sm text-green-700">{{ session('success') }}</p>
-                    </div>
+            <div class="mb-8 bg-green-50 border-l-4 border-green-500 p-6 rounded-r-xl">
+                <div class="flex items-center">
+                    <span class="text-2xl mr-3">✅</span>
+                    <p class="text-green-700 font-medium">{{ session('success') }}</p>
                 </div>
             </div>
         @endif
@@ -112,13 +111,14 @@
                 </p>
                 @if (auth()->check())
                     <a href="{{ route('posts.create') }}" 
-                       class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all transform hover:scale-105">
+                       class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105">
                         ✍️ Napisz pierwszy post
                     </a>
                 @else
                     <a href="{{ route('login') }}" 
-                       class="inline-flex items-center px-6 py-3 border border-blue-600 text-blue-600 font-semibold rounded-lg hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all">
+                       class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105">
                         🔑 Zaloguj się
+                    </a>
                     </a>
                 @endif
             </div>
