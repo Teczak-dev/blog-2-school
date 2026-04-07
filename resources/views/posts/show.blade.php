@@ -295,43 +295,14 @@
                 @foreach($relatedPosts as $relatedPost)
                 <a href="{{ route('posts.show', $relatedPost->id) }}" class="group">
                     <article class="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden">
-                        @if($relatedPost->photo)
-                            <div class="h-32 bg-cover bg-center" style="background-image: url('{{ asset('storage/' . $relatedPost->photo) }}');">
-                                <div class="h-full bg-black bg-opacity-20"></div>
-                            </div>
-                        @else
-                            @php
-                                $gradients = [
-                                    'Laravel' => 'bg-gradient-to-br from-red-500 to-orange-600',
-                                    'PHP' => 'bg-gradient-to-br from-purple-500 to-indigo-600',
-                                    'React' => 'bg-gradient-to-br from-blue-500 to-cyan-600',
-                                    'Vue.js' => 'bg-gradient-to-br from-green-500 to-teal-600',
-                                    'JavaScript' => 'bg-gradient-to-br from-yellow-500 to-orange-600',
-                                    'Docker' => 'bg-gradient-to-br from-blue-500 to-indigo-600',
-                                    'AI' => 'bg-gradient-to-br from-purple-500 to-pink-600',
-                                    'Tutorial' => 'bg-gradient-to-br from-gray-500 to-blue-600',
-                                    'default' => 'bg-gradient-to-br from-blue-500 to-indigo-600'
-                                ];
-                                
-                                $icons = [
-                                    'Laravel' => '🔥',
-                                    'PHP' => '🐘', 
-                                    'React' => '⚛️',
-                                    'Vue.js' => '💚',
-                                    'JavaScript' => '⚡',
-                                    'Docker' => '🐋',
-                                    'AI' => '🤖',
-                                    'Tutorial' => '📚',
-                                    'default' => '📄'
-                                ];
-                                
-                                $gradient = $gradients[$relatedPost->category] ?? $gradients['default'];
-                                $icon = $icons[$relatedPost->category] ?? $icons['default'];
-                            @endphp
-                            <div class="h-32 {{ $gradient }} flex items-center justify-center">
-                                <span class="text-5xl">{{ $icon }}</span>
-                            </div>
-                        @endif
+                        <div class="h-32 bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+                            @if($relatedPost->photo)
+                                <img src="{{ asset('storage/' . $relatedPost->photo) }}" alt="{{ $relatedPost->title }}" 
+                                     class="w-full h-full object-cover">
+                            @else
+                                <span class="text-5xl">📝</span>
+                            @endif
+                        </div>
                         
                         <div class="p-4">
                             <div class="flex items-center gap-2 mb-2">
