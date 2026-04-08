@@ -135,9 +135,22 @@
 
         <!-- Comments Section -->
         <section class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 p-8">
-            <h2 class="text-2xl font-bold text-gray-900 mb-6">
-                Komentarze ({{ $post->approvedComments()->count() }})
-            </h2>
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-gray-900">
+                    Komentarze ({{ $post->approvedComments()->topLevel()->count() }})
+                </h2>
+                
+                <!-- Sort Dropdown -->
+                <div class="relative">
+                    <select id="comment-sort" 
+                            class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
+                            onchange="window.location.href = '{{ route('posts.show', $post->id) }}?sort=' + this.value">
+                        <option value="newest" {{ $sort === 'newest' ? 'selected' : '' }}>Najnowsze</option>
+                        <option value="oldest" {{ $sort === 'oldest' ? 'selected' : '' }}>Najstarsze</option>
+                        <option value="most_liked" {{ $sort === 'most_liked' ? 'selected' : '' }}>Najbardziej lubiane</option>
+                    </select>
+                </div>
+            </div>
 
             <!-- Comment Form -->
             <div class="mb-8 pb-8 border-b border-gray-200">
@@ -255,8 +268,23 @@
             <!-- Comments List -->
             <div id="comments-container">
                 @php
-                    $approvedComments = $post->approvedComments()->take(3)->get();
-                    $totalComments = $post->approvedComments()->count();
+                    $commentsQuery = $post->approvedComments()->topLevel();
+                    
+                    switch ($sort) {
+                        case 'oldest':
+                            $commentsQuery->orderBy('created_at', 'asc');
+                            break;
+                        case 'most_liked':
+                            $commentsQuery->orderBy('likes_count', 'desc')->orderBy('created_at', 'desc');
+                            break;
+                        case 'newest':
+                        default:
+                            $commentsQuery->orderBy('created_at', 'desc');
+                            break;
+                    }
+                    
+                    $approvedComments = $commentsQuery->take(10)->get();
+                    $totalComments = $post->approvedComments()->topLevel()->count();
                 @endphp
                 
                 @if($totalComments > 0)
@@ -266,16 +294,16 @@
                         @endforeach
                     </div>
                     
-                    @if($totalComments > 3)
+                    @if($totalComments > 10)
                         <div class="text-center mt-6">
                             <button id="load-more-comments" 
                                 data-post-id="{{ $post->id }}"
-                                data-offset="3"
+                                data-offset="10"
                                 class="inline-flex items-center gap-2 px-6 py-3 bg-gray-100 text-gray-700 font-medium rounded-xl hover:bg-gray-200 transition-all duration-200">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                                 </svg>
-                                Pokaż więcej komentarzy ({{ $totalComments - 3 }})
+                                Pokaż więcej komentarzy ({{ $totalComments - 10 }})
                             </button>
                         </div>
                     @endif
@@ -325,5 +353,110 @@
         @endif
 
     </main>
+
+    <!-- JavaScript for voting and replies -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Vote script loaded');
+            
+            const voteButtons = document.querySelectorAll('.vote-btn');
+            console.log('Found vote buttons:', voteButtons.length);
+            
+            // Handle voting
+            voteButtons.forEach(btn => {
+                console.log('Attaching listener to button:', btn);
+                btn.addEventListener('click', async function(e) {
+                    e.preventDefault();
+                    
+                    const commentId = this.dataset.commentId;
+                    const voteType = this.dataset.voteType;
+                    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+                    
+                    console.log('Vote clicked:', { commentId, voteType, csrfToken });
+                    
+                    if (!csrfToken) {
+                        console.error('CSRF token not found!');
+                        alert('Błąd: Brak tokenu CSRF. Odśwież stronę.');
+                        return;
+                    }
+                    
+                    try {
+                        const response = await fetch(`/comments/${commentId}/vote`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': csrfToken,
+                                'Accept': 'application/json',
+                            },
+                            body: JSON.stringify({ vote_type: voteType })
+                        });
+                        
+                        console.log('Response status:', response.status);
+                        const data = await response.json();
+                        console.log('Response data:', data);
+                        
+                        if (data.success) {
+                            // Update counters
+                            const commentEl = document.getElementById(`comment-${commentId}`);
+                            commentEl.querySelector('.likes-count').textContent = data.likes_count;
+                            commentEl.querySelector('.dislikes-count').textContent = data.dislikes_count;
+                            
+                            // Update button states
+                            const likeBtn = commentEl.querySelector('[data-vote-type="like"]');
+                            const dislikeBtn = commentEl.querySelector('[data-vote-type="dislike"]');
+                            const likeSvg = likeBtn.querySelector('svg');
+                            const dislikeSvg = dislikeBtn.querySelector('svg');
+                            
+                            // Reset both buttons
+                            likeSvg.classList.remove('fill-green-600', 'text-green-600');
+                            dislikeSvg.classList.remove('fill-red-600', 'text-red-600');
+                            likeBtn.removeAttribute('data-active');
+                            dislikeBtn.removeAttribute('data-active');
+                            
+                            // Highlight active vote
+                            if (data.user_vote === 'like') {
+                                likeSvg.classList.add('fill-green-600', 'text-green-600');
+                                likeBtn.setAttribute('data-active', 'true');
+                            } else if (data.user_vote === 'dislike') {
+                                dislikeSvg.classList.add('fill-red-600', 'text-red-600');
+                                dislikeBtn.setAttribute('data-active', 'true');
+                            }
+                        }
+                    } catch (error) {
+                        console.error('Vote error:', error);
+                        alert('Wystąpił błąd podczas głosowania. Spróbuj ponownie.');
+                    }
+                });
+            });
+            
+            // Handle reply toggle
+            document.querySelectorAll('.reply-toggle-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const commentId = this.dataset.commentId;
+                    const replyForm = document.getElementById(`reply-form-${commentId}`);
+                    replyForm.classList.toggle('hidden');
+                    
+                    // Focus on textarea if shown
+                    if (!replyForm.classList.contains('hidden')) {
+                        replyForm.querySelector('textarea').focus();
+                    }
+                });
+            });
+            
+            // Handle cancel reply
+            document.querySelectorAll('.cancel-reply-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const commentId = this.dataset.commentId;
+                    const replyForm = document.getElementById(`reply-form-${commentId}`);
+                    replyForm.classList.add('hidden');
+                    
+                    // Clear form
+                    replyForm.querySelector('form').reset();
+                });
+            });
+        });
+    </script>
 
 </x-layout>

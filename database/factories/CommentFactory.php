@@ -22,6 +22,9 @@ class CommentFactory extends Factory
             'author_name' => $this->faker->name(),
             'author_email' => $this->faker->safeEmail(),
             'content' => $this->faker->paragraphs(2, true),
+            'is_approved' => false,
+            'likes_count' => 0,
+            'dislikes_count' => 0,
         ];
     }
 }

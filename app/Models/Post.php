@@ -29,8 +29,7 @@ class Post extends Model
                     ->where(function($query) {
                         $query->where('is_approved', true)
                               ->orWhereNotNull('user_id'); // Logged users are auto-approved
-                    })
-                    ->orderBy('created_at', 'asc');
+                    });
     }
 
     public function user(): BelongsTo

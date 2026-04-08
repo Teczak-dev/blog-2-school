@@ -10,7 +10,8 @@ it('can display comments on post page', function () {
     $post = Post::factory()->create();
     $comment = Comment::factory()->for($post)->create([
         'author_name' => 'Jan Kowalski',
-        'content' => 'Test comment content'
+        'content' => 'Test comment content',
+        'is_approved' => true,
     ]);
 
     $response = $this->get("/posts/{$post->id}");
@@ -80,12 +81,14 @@ it('sorts comments by creation date descending', function () {
     
     $oldComment = Comment::factory()->for($post)->create([
         'author_name' => 'First Commenter',
-        'created_at' => now()->subHours(2)
+        'created_at' => now()->subHours(2),
+        'is_approved' => true,
     ]);
     
     $newComment = Comment::factory()->for($post)->create([
         'author_name' => 'Second Commenter', 
-        'created_at' => now()->subHours(1)
+        'created_at' => now()->subHours(1),
+        'is_approved' => true,
     ]);
 
     $response = $this->get("/posts/{$post->id}");

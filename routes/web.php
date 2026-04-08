@@ -33,5 +33,10 @@ Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
 
 Route::post('/posts/{id}/comments', [CommentController::class, 'store'])->name('comments.store');
 Route::get('/posts/{post}/comments/load-more', [CommentController::class, 'loadMore'])->name('comments.load-more');
+Route::post('/comments/{comment}/reply', [CommentController::class, 'reply'])->name('comments.reply');
+
+Route::middleware('auth')->group(function () {
+    Route::post('/comments/{comment}/vote', [\App\Http\Controllers\CommentVoteController::class, 'vote'])->name('comments.vote');
+});
 
 require __DIR__.'/auth.php';

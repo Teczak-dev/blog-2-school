@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
 {
@@ -77,14 +79,34 @@ class PostController extends Controller
         ]);
     }
 
-    public function show(string $id)
+    public function show(Request $request, string $id)
     {
         $post = Post::with('comments')->findOrFail($id);
         $relatedPosts = $post->getRelatedPosts();
+        
+        // Get sorting parameter
+        $sort = $request->get('sort', 'newest');
+        
+        // Get top-level approved comments with sorting
+        $commentsQuery = $post->approvedComments()->topLevel();
+        
+        switch ($sort) {
+            case 'oldest':
+                $commentsQuery->orderBy('created_at', 'asc');
+                break;
+            case 'most_liked':
+                $commentsQuery->orderBy('likes_count', 'desc')->orderBy('created_at', 'desc');
+                break;
+            case 'newest':
+            default:
+                $commentsQuery->orderBy('created_at', 'desc');
+                break;
+        }
 
         return view('posts.show', [
             'post' => $post,
             'relatedPosts' => $relatedPosts,
+            'sort' => $sort,
         ]);
     }
 
@@ -115,14 +137,44 @@ class PostController extends Controller
             'category_color' => 'nullable|string|in:blue,green,purple,red,yellow,orange,indigo,pink,gray',
             'lead' => 'nullable|max:500',
             'content' => 'required|min:10',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120', // Increased to 5MB, added webp
             'tags' => 'nullable|string',
             'read_time_minutes' => 'nullable|integer|min:1|max:60',
         ]);
 
         $photoPath = null;
         if ($request->hasFile('photo')) {
-            $photoPath = $request->file('photo')->store('posts', 'public');
+            try {
+                $file = $request->file('photo');
+                
+                // Log upload attempt for debugging
+                \Log::info('Photo upload attempt', [
+                    'original_name' => $file->getClientOriginalName(),
+                    'size' => $file->getSize(),
+                    'mime' => $file->getMimeType(),
+                    'temp_path' => $file->getPathname()
+                ]);
+                
+                $photoPath = $file->store('posts', 'public');
+                
+                \Log::info('Photo uploaded successfully', [
+                    'stored_path' => $photoPath,
+                    'full_path' => storage_path('app/public/' . $photoPath)
+                ]);
+                
+                // Verify file exists after upload
+                if (!Storage::disk('public')->exists($photoPath)) {
+                    \Log::error('Photo upload failed - file not found after storage', ['path' => $photoPath]);
+                    return back()->withErrors(['photo' => 'Błąd uploadu zdjęcia - plik nie został zapisany']);
+                }
+                
+            } catch (\Exception $e) {
+                \Log::error('Photo upload failed with exception', [
+                    'error' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString()
+                ]);
+                return back()->withErrors(['photo' => 'Błąd uploadu zdjęcia: ' . $e->getMessage()]);
+            }
         }
 
         // Process tags
@@ -170,7 +222,7 @@ class PostController extends Controller
             'category_color' => 'nullable|string|in:blue,green,purple,red,yellow,orange,indigo,pink,gray',
             'lead' => 'nullable|max:500',
             'content' => 'required|min:10',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120', // Increased to 5MB, added webp
             'tags' => 'nullable|string',
             'read_time_minutes' => 'nullable|integer|min:1|max:60',
         ]);
@@ -178,11 +230,39 @@ class PostController extends Controller
         $photoPath = $post->photo; // Keep existing photo by default
         
         if ($request->hasFile('photo')) {
-            // Delete old photo if exists
-            if ($post->photo) {
-                \Storage::disk('public')->delete($post->photo);
+            try {
+                $file = $request->file('photo');
+                
+                \Log::info('Photo update attempt', [
+                    'post_id' => $post->id,
+                    'original_name' => $file->getClientOriginalName(),
+                    'size' => $file->getSize(),
+                    'old_photo' => $post->photo
+                ]);
+                
+                // Delete old photo if exists
+                if ($post->photo && Storage::disk('public')->exists($post->photo)) {
+                    Storage::disk('public')->delete($post->photo);
+                    \Log::info('Old photo deleted', ['path' => $post->photo]);
+                }
+                
+                $photoPath = $file->store('posts', 'public');
+                
+                \Log::info('New photo uploaded', ['path' => $photoPath]);
+                
+                // Verify file exists after upload
+                if (!Storage::disk('public')->exists($photoPath)) {
+                    \Log::error('Photo update failed - file not found after storage', ['path' => $photoPath]);
+                    return back()->withErrors(['photo' => 'Błąd uploadu zdjęcia - plik nie został zapisany']);
+                }
+                
+            } catch (\Exception $e) {
+                \Log::error('Photo update failed', [
+                    'post_id' => $post->id,
+                    'error' => $e->getMessage()
+                ]);
+                return back()->withErrors(['photo' => 'Błąd uploadu zdjęcia: ' . $e->getMessage()]);
             }
-            $photoPath = $request->file('photo')->store('posts', 'public');
         }
 
         // Process tags

@@ -192,7 +192,7 @@
                                         </label>
                                         <p class="pl-1">lub przeciągnij i upuść</p>
                                     </div>
-                                    <p class="text-xs text-gray-500">PNG, JPG, GIF do 2MB</p>
+                                    <p class="text-xs text-gray-500">PNG, JPG, GIF, WEBP do 5MB</p>
                                 </div>
                             </div>
                             
