@@ -45,5 +45,15 @@
     "Unauthorized": "Nieautoryzowany Dostęp",
     "Verify Email Address": "Zweryfikuj Adres E-mail",
     "Whoops!": "Ups!",
-    "You are receiving this email because we received a password reset request for your account.": "Otrzymujesz ten e-mail, ponieważ otrzymaliśmy prośbę o zresetowanie hasła dla Twojego konta."
+    "You are receiving this email because we received a password reset request for your account.": "Otrzymujesz ten e-mail, ponieważ otrzymaliśmy prośbę o zresetowanie hasła dla Twojego konta.",
+    "Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn't receive the email, we will gladly send you another.": "Dziękujemy za rejestrację! Przed rozpoczęciem korzystania z serwisu, zweryfikuj swój adres email klikając w link, który właśnie wysłaliśmy. Jeśli nie otrzymałeś emaila, chętnie wyślemy kolejny.",
+    "A new verification link has been sent to the email address you provided during registration.": "Nowy link weryfikacyjny został wysłany na adres email podany podczas rejestracji.",
+    "Resend Verification Email": "Wyślij ponownie email weryfikacyjny",
+    "Log Out": "Wyloguj się",
+    "Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.": "Zapomniałeś hasła? Nie ma problemu. Podaj nam swój adres email, a wyślemy Ci link do resetowania hasła, który pozwoli Ci wybrać nowe.",
+    "Email Password Reset Link": "Wyślij link do resetowania hasła",
+    "Email": "Email",
+    "Password": "Hasło",
+    "Confirm Password": "Potwierdź hasło",
+    "Name": "Imię"
 }
