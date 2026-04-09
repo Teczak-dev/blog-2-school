@@ -28,6 +28,9 @@ A blog application built with Laravel 12, Filament v5, and Tailwind CSS v4. Feat
 - Post details page (`/posts/{id}`)
 - Authenticated post creation and editing
 - Post categories, read time, optional photo upload
+- Related posts section on post details page
+- Social sharing actions on post page (Facebook, X/Twitter, LinkedIn, WhatsApp, Messenger, copy link)
+- Instagram sharing fallback (opens Instagram and copies post URL)
 
 ### Comments
 
@@ -37,6 +40,8 @@ A blog application built with Laravel 12, Filament v5, and Tailwind CSS v4. Feat
 - Load more comments
 - Like/dislike voting on comments (authenticated users)
 - Sorting comments (newest/oldest/most liked)
+- AJAX comment/reply submission without manual page refresh
+- Automatic comments section refresh after posting a comment/reply
 
 ### Social features
 
@@ -54,6 +59,11 @@ A blog application built with Laravel 12, Filament v5, and Tailwind CSS v4. Feat
 - Mark conversation/message as read
 - Unread messages counter
 - Leave conversation
+
+### Notifications
+
+- Event-driven notifications for new posts, comments, and messages
+- Email templates for account verification and activity notifications
 
 ### UI/UX
 
@@ -88,6 +98,23 @@ composer run dev
 
 This starts the Laravel dev server, queue worker, log viewer, and Vite simultaneously.
 
+## Troubleshooting (sharing / comments)
+
+If social sharing does not work on production, verify:
+
+- the app uses a **public HTTPS URL** (not localhost/private IP),
+- popups are not blocked in browser,
+- `APP_URL` in `.env` points to the public domain,
+- CSP/firewall/proxy rules do not block `facebook.com`, `twitter.com`, `x.com`, `linkedin.com`, `wa.me`.
+
+If something still fails, collect and share:
+
+1. Full page URL where the issue occurs.
+2. Browser + device name.
+3. Exact button clicked (e.g. Facebook / X / Messenger).
+4. Browser console error (DevTools → Console).
+5. Network request details (DevTools → Network, failed request URL + status code).
+
 ## Testing
 
 ```bash
@@ -99,3 +126,5 @@ php artisan test
 ```bash
 vendor/bin/pint
 ```
+
+

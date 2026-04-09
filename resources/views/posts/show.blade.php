@@ -180,18 +180,79 @@
 
 
                 <!-- Social Share -->
-                <div class="mt-6 flex items-center gap-4">
+                @php
+                    $shareAbsoluteUrl = route('posts.show', $post->id);
+                @endphp
+                <div class="mt-6 flex flex-wrap items-center gap-4">
                     <span class="text-sm text-gray-600 dark:text-gray-400">Udostępnij:</span>
-                    <button class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
+                    <button type="button"
+                       class="social-share-btn text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
+                       data-share-platform="facebook"
+                       data-share-url="{{ $shareAbsoluteUrl }}"
+                       data-share-title="{{ $post->title }}"
+                       aria-label="Udostępnij na Facebooku">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                             <path
                                 d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                         </svg>
                     </button>
-                    <button class="text-sky-500 dark:text-sky-400 hover:text-sky-600 dark:hover:text-sky-300">
+                    <button type="button"
+                       class="social-share-btn text-sky-500 dark:text-sky-400 hover:text-sky-600 dark:hover:text-sky-300"
+                       data-share-platform="x"
+                       data-share-url="{{ $shareAbsoluteUrl }}"
+                       data-share-title="{{ $post->title }}"
+                       aria-label="Udostępnij na X">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                             <path
                                 d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
+                        </svg>
+                    </button>
+                    <button type="button"
+                       class="social-share-btn text-blue-700 dark:text-blue-300 hover:text-blue-800 dark:hover:text-blue-200"
+                       data-share-platform="linkedin"
+                       data-share-url="{{ $shareAbsoluteUrl }}"
+                       data-share-title="{{ $post->title }}"
+                       aria-label="Udostępnij na LinkedIn">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.762 2.239 5 5 5h14c2.762 0 5-2.238 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764 0-.975.784-1.764 1.75-1.764s1.75.789 1.75 1.764c0 .974-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-1.337-.027-3.058-1.864-3.058-1.867 0-2.154 1.46-2.154 2.965v5.697h-3v-11h2.881v1.502h.041c.401-.761 1.381-1.563 2.844-1.563 3.042 0 3.604 2.003 3.604 4.609v6.452z"/>
+                        </svg>
+                    </button>
+                    <button type="button"
+                       class="social-share-btn text-blue-500 dark:text-blue-300 hover:text-blue-700 dark:hover:text-blue-100"
+                       data-share-platform="messenger"
+                       data-share-url="{{ $shareAbsoluteUrl }}"
+                       data-share-title="{{ $post->title }}"
+                       aria-label="Udostępnij w Messengerze">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0C5.373 0 0 4.97 0 11.108c0 3.495 1.745 6.613 4.472 8.65V24l4.012-2.207c1.07.296 2.2.454 3.516.454 6.627 0 12-4.97 12-11.108C24 4.97 18.627 0 12 0zm1.19 14.964l-3.055-3.258-5.96 3.258 6.556-6.959 3.133 3.258 5.881-3.258-6.556 6.959z"/>
+                        </svg>
+                    </button>
+                    <button type="button"
+                       class="social-share-btn text-pink-600 dark:text-pink-400 hover:text-pink-700 dark:hover:text-pink-300"
+                       data-share-platform="instagram"
+                       data-share-url="{{ $shareAbsoluteUrl }}"
+                       data-share-title="{{ $post->title }}"
+                       aria-label="Udostępnij na Instagramie">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M7.75 2C4.578 2 2 4.578 2 7.75v8.5C2 19.422 4.578 22 7.75 22h8.5c3.172 0 5.75-2.578 5.75-5.75v-8.5C22 4.578 19.422 2 16.25 2h-8.5zm0 1.5h8.5a4.255 4.255 0 0 1 4.25 4.25v8.5a4.255 4.255 0 0 1-4.25 4.25h-8.5a4.255 4.255 0 0 1-4.25-4.25v-8.5A4.255 4.255 0 0 1 7.75 3.5zm9.5 1.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5zM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 1.5A3.5 3.5 0 1 1 12 15.5 3.5 3.5 0 0 1 12 8.5z"/>
+                        </svg>
+                    </button>
+                    <button type="button"
+                       class="social-share-btn text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300"
+                       data-share-platform="whatsapp"
+                       data-share-url="{{ $shareAbsoluteUrl }}"
+                       data-share-title="{{ $post->title }}"
+                       aria-label="Udostępnij na WhatsApp">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20.52 3.48A11.86 11.86 0 0 0 12.06 0C5.51 0 .17 5.33.17 11.88c0 2.09.55 4.13 1.59 5.93L0 24l6.37-1.67a11.86 11.86 0 0 0 5.69 1.45h.01c6.55 0 11.88-5.33 11.88-11.88 0-3.17-1.24-6.16-3.43-8.42zm-8.46 18.3h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.78.99 1.01-3.69-.24-.38a9.87 9.87 0 0 1-1.51-5.23c0-5.45 4.44-9.88 9.9-9.88 2.64 0 5.12 1.03 6.98 2.89a9.82 9.82 0 0 1 2.9 6.99c0 5.46-4.44 9.9-9.86 9.9zm5.43-7.39c-.3-.15-1.77-.87-2.04-.96-.27-.1-.47-.15-.66.15-.2.3-.76.96-.94 1.16-.17.2-.34.22-.64.08-.3-.15-1.25-.46-2.38-1.46a8.94 8.94 0 0 1-1.65-2.06c-.17-.3-.02-.46.12-.6.13-.13.3-.34.45-.51.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.66-.5h-.57c-.2 0-.53.08-.8.38-.27.3-1.03 1-1.03 2.44 0 1.43 1.06 2.82 1.2 3.02.15.2 2.08 3.18 5.04 4.45.7.3 1.26.48 1.69.62.71.22 1.36.19 1.88.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35z"/>
+                        </svg>
+                    </button>
+                    <button type="button"
+                            class="copy-share-link text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100"
+                            data-share-url="{{ $shareAbsoluteUrl }}"
+                            aria-label="Kopiuj link do posta">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16h8m-8-4h8m-8-4h8m2 12H6a2 2 0 01-2-2V6a2 2 0 012-2h9l5 5v9a2 2 0 01-2 2z"/>
                         </svg>
                     </button>
                 </div>
@@ -223,7 +284,7 @@
                 
                 @if (auth()->check())
                     <!-- Logged user form -->
-                    <form method="POST" action="{{ route('comments.store', $post->id) }}" class="space-y-4">
+                    <form method="POST" action="{{ route('comments.store', $post->id) }}" class="space-y-4" data-comment-form="true">
                         @csrf
                         <div>
                             <label for="content" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -250,7 +311,7 @@
                     </form>
                 @else
                     <!-- Guest user form -->
-                    <form method="POST" action="{{ route('comments.store', $post->id) }}" class="space-y-4">
+                    <form method="POST" action="{{ route('comments.store', $post->id) }}" class="space-y-4" data-comment-form="true">
                         @csrf
                         
                         <!-- Info about moderation -->
@@ -492,32 +553,97 @@
                 }
             });
             
-            // Handle reply toggle
-            document.querySelectorAll('.reply-toggle-btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
+            // Handle reply toggles, cancel and share copy via event delegation
+            document.addEventListener('click', function (e) {
+                const replyToggleButton = e.target.closest('.reply-toggle-btn');
+                if (replyToggleButton) {
                     e.preventDefault();
-                    const commentId = this.dataset.commentId;
+                    const commentId = replyToggleButton.dataset.commentId;
                     const replyForm = document.getElementById(`reply-form-${commentId}`);
-                    replyForm.classList.toggle('hidden');
-                    
-                    // Focus on textarea if shown
-                    if (!replyForm.classList.contains('hidden')) {
-                        replyForm.querySelector('textarea').focus();
+                    if (!replyForm) {
+                        return;
                     }
-                });
-            });
-            
-            // Handle cancel reply
-            document.querySelectorAll('.cancel-reply-btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
+                    replyForm.classList.toggle('hidden');
+                    if (!replyForm.classList.contains('hidden')) {
+                        replyForm.querySelector('textarea')?.focus();
+                    }
+                    return;
+                }
+
+                const cancelReplyButton = e.target.closest('.cancel-reply-btn');
+                if (cancelReplyButton) {
                     e.preventDefault();
-                    const commentId = this.dataset.commentId;
+                    const commentId = cancelReplyButton.dataset.commentId;
                     const replyForm = document.getElementById(`reply-form-${commentId}`);
+                    if (!replyForm) {
+                        return;
+                    }
                     replyForm.classList.add('hidden');
-                    
-                    // Clear form
-                    replyForm.querySelector('form').reset();
-                });
+                    replyForm.querySelector('form')?.reset();
+                    return;
+                }
+
+                const copyButton = e.target.closest('.copy-share-link');
+                if (copyButton) {
+                    e.preventDefault();
+                    const shareUrl = copyButton.dataset.shareUrl;
+                    if (!shareUrl || !navigator.clipboard) {
+                        return;
+                    }
+                    navigator.clipboard.writeText(shareUrl).then(() => {
+                        copyButton.classList.add('text-green-600', 'dark:text-green-400');
+                        setTimeout(() => {
+                            copyButton.classList.remove('text-green-600', 'dark:text-green-400');
+                        }, 1200);
+                    });
+                    return;
+                }
+
+                const socialShareButton = e.target.closest('.social-share-btn');
+                if (socialShareButton) {
+                    e.preventDefault();
+                    const platform = socialShareButton.dataset.sharePlatform;
+                    const shareUrl = socialShareButton.dataset.shareUrl || window.location.href;
+                    const shareTitle = socialShareButton.dataset.shareTitle || document.title;
+                    const encodedUrl = encodeURIComponent(shareUrl);
+                    const encodedTitle = encodeURIComponent(shareTitle);
+                    const isLocalhost = ['localhost', '127.0.0.1', '::1'].includes(window.location.hostname);
+
+                    if (platform === 'instagram') {
+                        if (navigator.clipboard) {
+                            navigator.clipboard.writeText(shareUrl);
+                        }
+                        window.open('https://www.instagram.com/', '_blank', 'noopener,noreferrer');
+                        return;
+                    }
+
+                    let targetUrl = '';
+                    switch (platform) {
+                        case 'facebook':
+                            targetUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
+                            break;
+                        case 'x':
+                            targetUrl = `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`;
+                            break;
+                        case 'linkedin':
+                            targetUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`;
+                            break;
+                        case 'messenger':
+                            targetUrl = `https://www.facebook.com/dialog/send?link=${encodedUrl}&app_id=291494419107518&redirect_uri=${encodedUrl}`;
+                            break;
+                        case 'whatsapp':
+                            targetUrl = `https://wa.me/?text=${encodedTitle}%20${encodedUrl}`;
+                            break;
+                        default:
+                            return;
+                    }
+
+                    if (isLocalhost) {
+                        alert('Link prowadzi do localhost, więc część serwisów społecznościowych może odrzucić udostępnienie. Najpierw wystaw aplikację pod publicznym adresem.');
+                    }
+
+                    window.open(targetUrl, '_blank', 'noopener,noreferrer');
+                }
             });
         });
 

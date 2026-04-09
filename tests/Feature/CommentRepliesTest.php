@@ -149,3 +149,22 @@ it('canReply method works correctly', function () {
     expect($topLevelComment->canReply())->toBeTrue();
     expect($replyComment->canReply())->toBeFalse();
 });
+
+it('returns json response for ajax reply submission', function () {
+    $user = User::factory()->create();
+    $post = Post::factory()->create();
+    $parentComment = Comment::factory()->for($post)->create([
+        'is_approved' => true,
+        'parent_id' => null,
+    ]);
+
+    $response = $this->actingAs($user)->postJson("/comments/{$parentComment->id}/reply", [
+        'content' => 'AJAX odpowiedź',
+    ]);
+
+    $response->assertSuccessful();
+    $response->assertJsonPath('success', true);
+    $response->assertJsonPath('reply.parent_id', $parentComment->id);
+    $response->assertJsonPath('reply.content', 'AJAX odpowiedź');
+    $response->assertJsonPath('reply.is_approved', true);
+});

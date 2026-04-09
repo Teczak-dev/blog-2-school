@@ -75,7 +75,7 @@
         <!-- Reply Form (hidden by default) -->
         @if($comment->canReply())
             <div class="reply-form-container mt-4 hidden" id="reply-form-{{ $comment->id }}">
-                <form method="POST" action="{{ route('comments.reply', $comment->id) }}" class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
+                <form method="POST" action="{{ route('comments.reply', $comment->id) }}" class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4" data-comment-form="true">
                     @csrf
                     
                     @guest

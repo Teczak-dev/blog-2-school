@@ -115,3 +115,20 @@ it('preserves form data when validation fails', function () {
     expect(old('author_name'))->toBe('Valid Name');
     expect(old('content'))->toBe('Valid content');
 });
+
+it('shows social share actions on post page', function () {
+    $post = Post::factory()->create([
+        'title' => 'Super post testowy',
+    ]);
+
+    $response = $this->get(route('posts.show', $post->id));
+
+    $response->assertSuccessful();
+    $response->assertSee('data-share-platform="facebook"', false);
+    $response->assertSee('data-share-platform="x"', false);
+    $response->assertSee('data-share-platform="linkedin"', false);
+    $response->assertSee('data-share-platform="messenger"', false);
+    $response->assertSee('data-share-platform="instagram"', false);
+    $response->assertSee('data-share-platform="whatsapp"', false);
+    $response->assertSee('data-share-url="' . route('posts.show', $post->id) . '"', false);
+});
